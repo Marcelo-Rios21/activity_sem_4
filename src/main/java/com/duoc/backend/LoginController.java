@@ -1,6 +1,5 @@
 package com.duoc.backend;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,8 +13,7 @@ public class LoginController {
 
     public LoginController(
             JWTAuthenticationConfig jwtAuthtenticationConfig,
-            MyUserDetailsService userDetailsService,
-            PasswordEncoder passwordEncoder) {
+            MyUserDetailsService userDetailsService) {
         this.jwtAuthtenticationConfig = jwtAuthtenticationConfig;
         this.userDetailsService = userDetailsService;
     }
