@@ -1,26 +1,36 @@
 package com.duoc.backend;
 
-import io.jsonwebtoken.*;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.crypto.SecretKey;
 
-import static com.duoc.backend.Constants.*;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import static com.duoc.backend.Constants.HEADER_AUTHORIZACION_KEY;
+import static com.duoc.backend.Constants.TOKEN_BEARER_PREFIX;
+import static com.duoc.backend.Constants.getSigningKey;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Component
 public class JWTAuthorizationFilter extends OncePerRequestFilter {
+    @Value("${app.jwt.secret}")
+    private String jwtSecret;
 
     private Claims setSigningKey(HttpServletRequest request) {
         String jwtToken = request.
@@ -28,7 +38,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
                 replace(TOKEN_BEARER_PREFIX, "");
 
                 return Jwts.parser()
-                .verifyWith((SecretKey) getSigningKey(SUPER_SECRET_KEY))
+                .verifyWith((SecretKey) getSigningKey(jwtSecret))
                 .build()
                 .parseSignedClaims(jwtToken)
                 .getPayload();
