@@ -10,7 +10,12 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'mvn clean verify'
+                sh '''
+                    mvn clean verify \
+                      -Dspring.datasource.url=jdbc:mysql://mysql:3306/mydatabase \
+                      -Dspring.datasource.username=myuser \
+                      -Dspring.datasource.password=password
+                '''
             }
         }
 
@@ -19,6 +24,9 @@ pipeline {
                 withSonarQubeEnv('SonarQube') {
                     sh '''
                         mvn sonar:sonar \
+                          -Dspring.datasource.url=jdbc:mysql://mysql:3306/mydatabase \
+                          -Dspring.datasource.username=myuser \
+                          -Dspring.datasource.password=password \
                           -Dsonar.projectKey=backend \
                           -Dsonar.projectName=backend
                     '''
