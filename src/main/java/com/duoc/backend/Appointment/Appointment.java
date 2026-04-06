@@ -1,9 +1,9 @@
-package com.duoc.backend.Appointment;
+package com.duoc.backend.appointment;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import com.duoc.backend.Patient.Patient;
+import com.duoc.backend.patient.Patient;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

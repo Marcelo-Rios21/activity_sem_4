@@ -1,12 +1,12 @@
-package com.duoc.backend.Invoice;
+package com.duoc.backend.invoice;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-import com.duoc.backend.Appointment.Appointment;
-import com.duoc.backend.Care.Care;
-import com.duoc.backend.Medication.Medication;
+import com.duoc.backend.appointment.Appointment;
+import com.duoc.backend.care.Care;
+import com.duoc.backend.medication.Medication;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -1,5 +1,4 @@
 package com.duoc.backend;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,23 +9,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class LoginController {
 
-    @Autowired
-    JWTAuthenticationConfig jwtAuthtenticationConfig;
+    private final JWTAuthenticationConfig jwtAuthtenticationConfig;
+    private final MyUserDetailsService userDetailsService;
 
-    @Autowired
-    private MyUserDetailsService userDetailsService;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    public LoginController(
+            JWTAuthenticationConfig jwtAuthtenticationConfig,
+            MyUserDetailsService userDetailsService,
+            PasswordEncoder passwordEncoder) {
+        this.jwtAuthtenticationConfig = jwtAuthtenticationConfig;
+        this.userDetailsService = userDetailsService;
+    }
 
     @PostMapping("login")
     public String login(
             @RequestParam("user") String username,
             @RequestParam("encryptedPass") String encryptedPass) {
-
-        /**
-        * En el ejemplo no se realiza la correcta validación del usuario
-        */
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
@@ -37,5 +34,4 @@ public class LoginController {
         String token = jwtAuthtenticationConfig.getJWTToken(username);
         return token;
     }
-
 }

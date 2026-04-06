@@ -1,8 +1,6 @@
-package com.duoc.backend.Appointment;
+package com.duoc.backend.appointment;
 
 import org.springframework.data.repository.CrudRepository;
-
-import com.duoc.backend.Appointment.Appointment;
 
 public interface AppointmentRepository extends CrudRepository<Appointment, Long> {
 }

@@ -1,33 +1,36 @@
-package com.duoc.backend.Invoice;
+package com.duoc.backend.invoice;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.duoc.backend.Appointment.Appointment;
-import com.duoc.backend.Appointment.AppointmentRepository;
-import com.duoc.backend.Care.Care;
-import com.duoc.backend.Care.CareRepository;
-import com.duoc.backend.Medication.Medication;
-import com.duoc.backend.Medication.MedicationRepository;
+import com.duoc.backend.appointment.Appointment;
+import com.duoc.backend.appointment.AppointmentRepository;
+import com.duoc.backend.care.Care;
+import com.duoc.backend.care.CareRepository;
+import com.duoc.backend.medication.Medication;
+import com.duoc.backend.medication.MedicationRepository;
 
 @Service
 public class InvoiceService {
 
-    @Autowired
-    private InvoiceRepository invoiceRepository;
+    private final InvoiceRepository invoiceRepository;
+    private final MedicationRepository medicationRepository;
+    private final CareRepository careRepository;
+    private final AppointmentRepository appointmentRepository;
 
-    @Autowired
-    private MedicationRepository medicationRepository;
-
-    @Autowired
-    private CareRepository careRepository;
-
-    @Autowired
-    private AppointmentRepository appointmentRepository;
+    public InvoiceService(
+            InvoiceRepository invoiceRepository,
+            MedicationRepository medicationRepository,
+            CareRepository careRepository,
+            AppointmentRepository appointmentRepository) {
+        this.invoiceRepository = invoiceRepository;
+        this.medicationRepository = medicationRepository;
+        this.careRepository = careRepository;
+        this.appointmentRepository = appointmentRepository;
+    }
 
     public Iterable<Invoice> getAllInvoices() {
         return invoiceRepository.findAll();
